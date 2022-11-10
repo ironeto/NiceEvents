@@ -7,9 +7,16 @@ export type AppState = {
     id: string;
     name: string;
     color: string;
+    coords: Coords;
   };
   events: Event[];
 };
+
+export type Coords = {
+  latitude: number;
+  longitude: number;
+};
+
 
 export const initialAppState: AppState = {
   isLoading: true,
@@ -17,6 +24,10 @@ export const initialAppState: AppState = {
     id: '',
     name: '',
     color: '',
+    coords: {
+      latitude: 0,
+      longitude: 0,
+    },
   },
   events: [
     {name:'Event 1', type:'Music', imgUrl:'https://pbs.twimg.com/profile_images/486929358120964097/gNLINY67_400x400.png', lat:111, long:111},

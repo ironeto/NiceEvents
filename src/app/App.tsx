@@ -1,44 +1,76 @@
-import {useState, useEffect} from 'react';
-import {} from 'react-native';
+import {useState, useEffect, useRef} from 'react';
+import {NavigationContainer} from '@react-navigation/native';
 import {Loader} from '../components/Loader';
 import {AppContext, initialAppState} from './AppContext';
 import {requestPermission} from '../geolocation/requestPermission';
 import {getCoords} from '../geolocation/getCoords';
-import {EventListScreen} from '../screens/event/EventListScreen';
+import {watchGeolocation} from '../geolocation/watchGeolocation';
+import {AppState} from './AppContext';
+import {AppNavigator} from './AppNavigator';
+import {AppStorage} from './AppStorage';
 
+async function init(): Promise<AppState> {
+  const isPermissionGranted = await requestPermission();
+  const coords = await getCoords();
+  const storage = await AppStorage.getStorage();
+  const user = {
+    ...storage.user,
+    coords: coords ?? storage.user.coords,
+  };
+  const isLoading = !isPermissionGranted;
 
-function delay(seconds: number) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(undefined);
-    }, seconds * 1000);
-  });
-}
+  const appState = {
+    ...storage,
+    user,
+    isLoading,
+  };
 
-async function init() {
-  //const isPermissionGranted = await requestPermission();
-  //const coords = await getCoords();
+  await AppStorage.setStorage(appState);
 
-  //return isPermissionGranted;
-  return true;
+  return appState;
 }
 
 export function App() {
   const [appState, setAppState] = useState(initialAppState);
+  const clearWatchIdRef = useRef(() => {});
+  const clearWatchId = clearWatchIdRef.current;
 
   useEffect(() => {
-    init().then(isSuccess => {
-      isSuccess === true && setAppState({...appState, isLoading: false});
+    init().then(appState => {
+      setAppState(appState);
+      const watchResults = watchGeolocation({
+        onPositionChange(coords) {
+          setAppState({
+            ...appState,
+            user: {
+              ...appState.user,
+              coords,
+            },
+          });
+        },
+      });
+
+      clearWatchIdRef.current = watchResults.clearWatchId;
     });
+
+    return () => {
+      clearWatchId();
+    };
   }, []);
 
-  /*if (appState.isLoading) {
-    return <Loader />;
-  }*/
+  useEffect(() => {
+    AppStorage.syncAppStorage(appState);
+  }, [appState]);
+
+  // if (appState.isLoading) {
+  //   return <Loader />;
+  // }
 
   return (
-    <AppContext.Provider value={{appState, setAppState}}>
-      <EventListScreen events={appState.events}/>
-    </AppContext.Provider>
+    <NavigationContainer>
+        <AppContext.Provider value={{appState, setAppState}}>
+          <AppNavigator />
+        </AppContext.Provider>
+    </NavigationContainer>
   );
 }

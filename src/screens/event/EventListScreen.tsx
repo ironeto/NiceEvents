@@ -22,15 +22,15 @@ const EventListWrapper = styled.View`
   background-color: white;
 `;
 
-export function EventListScreen(events:Event[]) {
+export function EventListScreen() {
   const {width, height} = useWindowDimensions();
   const isLandscape = width > height;
-
+  let events = [{name:'Event 1', type:'Music', imgUrl:'https://pbs.twimg.com/profile_images/486929358120964097/gNLINY67_400x400.png', lat:111, long:111}]
   return (
     <EventListWrapper style={{flexDirection: isLandscape ? 'row' : 'column'}}>
       <EventList>
         {
-        events.events.map(event => (
+        events.map(event => (
           <TouchableOpacity
             onPress={() => {
               Alert.alert('Name', `${event.name} - ${event.lat} ${event.long}`);
