@@ -3,7 +3,7 @@ import {StyleSheet, TouchableHighlight, View, Text, ScrollView, Button} from 're
 import styled from 'styled-components/native';
 import MapView, {Marker, Callout} from 'react-native-maps';
 import {AppContext, AppEvents} from '../../app/AppContext';
-import {EventItem} from '../../components/EventItem';
+import {MapEventItem} from '../../components/MapEventItem';
 
 const delta = 0.1;
 
@@ -46,6 +46,7 @@ export function HomeScreen() {
   const {appState, setAppState} = useContext(AppContext);
   let events = appState.events;
   let user = appState.user;
+  let myEvents = appState.myEvents;
 
   const [evs, setEvs] = useState([]);
   useEffect(() => {
@@ -75,9 +76,17 @@ export function HomeScreen() {
   };
 
   let calloutPress = (id) => {
-    let event = events.find(x => x.id === id);
-    setAppState({...appState, myEvents:[event]});
-    alert(`O Evento ${event?.name} foi adicionado à sua lista de interesses.`);
+          let event = events.find(x => x.id === id);
+    let myevent = myEvents.find(x => x.id === id);
+    if(!myevent){
+      appState.myEvents.push(event);
+      setAppState({...appState});
+      alert(`O Evento ${event?.name} foi adicionado à sua lista de interesses.`);
+    }
+    else
+    {
+      alert(`O Evento ${event?.name} já está na sua lista de interesses.`);
+    }
 };
 
   return (
@@ -101,7 +110,7 @@ export function HomeScreen() {
                           <Callout onPress={() => calloutPress(e.id)}>
                               <View style={styles.viewStyle}>
                                 <View style={styles.viewStyleRow}>
-                                  <EventItem name={e.name} type={e.type} imgUrl={e.imgUrl} />
+                                  <MapEventItem name={e.name} type={e.type} imgUrl={e.imgUrl} />
                                 </View>
                                 <View style={styles.viewStyleRow}>
                                   <Button
@@ -123,26 +132,12 @@ const styles = StyleSheet.create({
     height: '100%',
     zIndex: 0
   },
-  calloutText: {
-    width: 140,
-    height: 100,
-    fontSize: 18,
-  },
   viewStyle: {
     flexDirection: "row",
     flexWrap: "wrap",
     width: 200,
-    height: 150,
+    height: 200,
     backgroundColor: "#fff",
     padding: 20
   },
-  calloutTitle: {
-    fontSize: 17,
-    marginBottom: 5,
-    fontWeight: "bold",
-    
-},
-calloutDescription: {
-    fontSize: 14
-}
 });

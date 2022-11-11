@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 
 const EventItemWrapper = styled.View`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   padding: 8px;
 `;
@@ -22,7 +22,7 @@ export type EventItemProps = {
   imgUrl: string;
 };
 
-export function EventItem({name, type, imgUrl}: EventItemProps) {
+export function MapEventItem({name, type, imgUrl}: EventItemProps) {
   return (
     <EventItemWrapper>
       <EventImgWrapper>
