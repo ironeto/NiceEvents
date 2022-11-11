@@ -35,6 +35,8 @@ export function App() {
   const clearWatchIdRef = useRef(() => {});
   const clearWatchId = clearWatchIdRef.current;
 
+
+
   useEffect(() => {
     init().then(appState => {
       setAppState(appState);
@@ -62,9 +64,9 @@ export function App() {
     AppStorage.syncAppStorage(appState);
   }, [appState]);
 
-  if (appState.isLoading) {
-    return <Loader />;
-  }
+  // if (appState.isLoading) {
+  //   return <Loader />;
+  // }
 
   return (
     <NavigationContainer>

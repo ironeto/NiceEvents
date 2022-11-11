@@ -5,7 +5,7 @@ export type Coords = {
   longitude: number;
 };
 
-export interface Event {
+export interface AppEvents {
   id: number;
   name: string;
   type: string;
@@ -16,15 +16,14 @@ export interface Event {
 export type UserState = {
   id: string;
   name: string;
-  color: string;
   coords: Coords;
 };
 
 export type AppState = {
   isLoading: boolean;
   user: UserState;
-  events: Event[];
-  myEvents: Event[];
+  events: AppEvents[];
+  myEvents: AppEvents[];
 };
 
 export const initialAppState: AppState = {
@@ -32,7 +31,6 @@ export const initialAppState: AppState = {
   user: {
     id: '',
     name: '',
-    color: '',
     coords: {
       latitude: 0,
       longitude: 0,

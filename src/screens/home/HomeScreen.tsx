@@ -1,34 +1,87 @@
-  import {useContext, useEffect} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import {StyleSheet, TouchableHighlight, View, Text, ScrollView, Button} from 'react-native';
 import styled from 'styled-components/native';
 import MapView, {Marker, Callout} from 'react-native-maps';
-import {AppContext} from '../../app/AppContext';
+import {AppContext, AppEvents} from '../../app/AppContext';
+import {EventItem} from '../../components/EventItem';
 
-const delta = 0.020;
+const delta = 0.1;
 
 const MapContainer = styled.View`
   width: 100%;
   height: 100%;
 `;
 
+
+const movementIncrement = 0.01;
+
+let generateEvents = true;
+
+function generateBoolean() {
+  return Math.random() > 0.5;
+}
+
+function generateInteger(max) {
+  return Math.round(Math.random() * max);
+}
+
+function randomSingleCoordsPosition(singleCoords) {
+  return parseFloat(
+    (
+      singleCoords +
+      (generateBoolean() ? movementIncrement : -movementIncrement) *
+        generateInteger(10)
+    ).toFixed(7),
+  );
+}
+ 
+function getRandomCoords(coords) {
+  return {
+    latitude: randomSingleCoordsPosition(coords.latitude),
+    longitude: randomSingleCoordsPosition(coords.longitude),
+  };
+}
+
 export function HomeScreen() {
-  const {
-    appState: {user, events},
-  } = useContext(AppContext);
+  const {appState, setAppState} = useContext(AppContext);
+  let events = appState.events;
+  let user = appState.user;
 
-  // useEffect(() => {
-  //   setUsersPositions(positions);
-  // }, [positions]);
+  useEffect(() => {
+    updateEventsCoords();
+  }, []);
 
-  const positions = [];
-  const positionsArray = Object.values(positions);
+  const [evs, setEvs] = useState([]);
+  useEffect(() => {
+      if(generateEvents == true){
+        generateEvents = false;
+
+        updateEventsCoords();
+
+      }
+  }, []);
+
+  let updateEventsCoords = () =>{
+
+    let eventsArr = events.map((val: any): AppEvents => ({
+      id: val.id,
+      name: val.name,
+      type: val.type,
+      imgUrl: val.imgUrl,
+      coords: getRandomCoords(appState.user.coords)
+    }));
+
+    setEvs(eventsArr);
+  };
 
   let onMapPress = (e) => {
       console.log(JSON.stringify(e.nativeEvent.coordinate));
   };
 
   let calloutPress = (id) => {
-    alert(id);
+    let event = events.find(x => x.id === id);
+    setAppState({...appState, myEvents:[event]});
+    alert(`O Evento ${event?.name} foi adicionado à sua lista de interesses.`);
 };
 
   return (
@@ -43,7 +96,7 @@ export function HomeScreen() {
           longitudeDelta: delta,
         }}>
         {
-          events.map(e => (
+          evs.map(e => (
               <Marker
               key = {e.id}
               onPress={onMapPress}
@@ -52,26 +105,17 @@ export function HomeScreen() {
                           <Callout onPress={() => calloutPress(e.id)}>
                               <View style={styles.viewStyle}>
                                 <View style={styles.viewStyleRow}>
-                                  <Text>Nome: {e.name}</Text>
-                                </View>
-                                <View style={styles.viewStyleRow}>
-                                  <Text>Tipo: {e.type}</Text>
+                                  <EventItem name={e.name} type={e.type} imgUrl={e.imgUrl} />
                                 </View>
                                 <View style={styles.viewStyleRow}>
                                   <Button
                                       color='blue'
-                                      title="Marcar interesse"
-                                      onPress={() => enrollEvent(e.id)}
-                                    />
+                                      title="Marcar interesse"/>
                                 </View>
                               </View>
                           </Callout>
             </Marker>
           ))}
-
-        {/* {positionsArray.map(position => (
-          <Marker coordinate={position.coords} key={position.id} />
-        ))} */}
       </MapView>
     </MapContainer>
   );
@@ -92,7 +136,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     width: 200,
-    height: 100,
+    height: 150,
     backgroundColor: "#fff",
     padding: 20
   },

@@ -11,7 +11,6 @@ import {
 import {EventItem} from '../../components/EventItem';
 import styled from 'styled-components/native';
 import { Float } from 'react-native/Libraries/Types/CodegenTypes';
-import {Event} from '../../models/event';
 import { AppContext } from '../../app/AppContext';
 
 const EventList = styled.ScrollView`
@@ -36,7 +35,7 @@ export function EventListScreen() {
         appState.events.map(event => (
           <TouchableOpacity
             onPress={() => {
-              Alert.alert('Name', `${event.name} - ${event.lat} ${event.long}`);
+              Alert.alert('Name', `${event.name} - ${event.coords.latitude} ${event.coords.longitude}`);
             }}>
             <EventItem name={event.name} type={event.type} imgUrl={event.imgUrl} />
           </TouchableOpacity>

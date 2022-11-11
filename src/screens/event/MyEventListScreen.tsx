@@ -1,3 +1,4 @@
+import {useContext, useState} from 'react';
 import {
   View,
   useWindowDimensions,
@@ -10,7 +11,7 @@ import {
 import {EventItem} from '../../components/EventItem';
 import styled from 'styled-components/native';
 import { Float } from 'react-native/Libraries/Types/CodegenTypes';
-import {Event} from '../../models/event';
+import { AppContext } from '../../app/AppContext';
 
 const EventList = styled.ScrollView`
   flex: 1;
@@ -25,15 +26,16 @@ const EventListWrapper = styled.View`
 export function MyEventListScreen() {
   const {width, height} = useWindowDimensions();
   const isLandscape = width > height;
-  let events = [{name:'Event 1', type:'Music', imgUrl:'https://pbs.twimg.com/profile_images/486929358120964097/gNLINY67_400x400.png', lat:111, long:111}]
+  const {appState, setAppState} = useContext(AppContext);
+
   return (
     <EventListWrapper style={{flexDirection: isLandscape ? 'row' : 'column'}}>
       <EventList>
         {
-        events.map(event => (
+        appState.myEvents.map(event => (
           <TouchableOpacity
             onPress={() => {
-              Alert.alert('Name', `${event.name} - ${event.lat} ${event.long}`);
+              Alert.alert('Name', `${event.name} - ${event.coords.latitude} ${event.coords.longitude}`);
             }}>
             <EventItem name={event.name} type={event.type} imgUrl={event.imgUrl} />
           </TouchableOpacity>
