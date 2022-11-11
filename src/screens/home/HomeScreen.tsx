@@ -47,10 +47,6 @@ export function HomeScreen() {
   let events = appState.events;
   let user = appState.user;
 
-  useEffect(() => {
-    updateEventsCoords();
-  }, []);
-
   const [evs, setEvs] = useState([]);
   useEffect(() => {
       if(generateEvents == true){

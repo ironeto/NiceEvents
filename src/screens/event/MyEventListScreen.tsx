@@ -34,6 +34,7 @@ export function MyEventListScreen() {
         {
         appState.myEvents.map(event => (
           <TouchableOpacity
+            key = {event.id}
             onPress={() => {
               Alert.alert('Name', `${event.name} - ${event.coords.latitude} ${event.coords.longitude}`);
             }}>

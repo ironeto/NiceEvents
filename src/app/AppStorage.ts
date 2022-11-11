@@ -9,7 +9,7 @@ const writeUserToStorageInterval = 2000;
 
 export class AppStorage {
   static async getStorage(): Promise<AppState> {
-    await AsyncStorage.clear();
+    //await AsyncStorage.clear();
     const storage = await AsyncStorage.getItem(storagePath);
     if (storage) {
       return JSON.parse(storage);
