@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 import MapView, {Marker, Callout} from 'react-native-maps';
 import {AppContext} from '../../app/AppContext';
 
-const delta = 0.003;
+const delta = 0.020;
 
 const MapContainer = styled.View`
   width: 100%;
@@ -13,7 +13,7 @@ const MapContainer = styled.View`
 
 export function HomeScreen() {
   const {
-    appState: {user},
+    appState: {user, events},
   } = useContext(AppContext);
 
   // useEffect(() => {
@@ -24,42 +24,50 @@ export function HomeScreen() {
   const positionsArray = Object.values(positions);
 
   let onMapPress = (e) => {
-      //alert("coordinates:" + JSON.stringify(e.nativeEvent.coordinate));
+      console.log(JSON.stringify(e.nativeEvent.coordinate));
   };
 
-  let calloutPress = () => {
-    alert("hello!");
+  let calloutPress = (id) => {
+    alert(id);
 };
 
   return (
     <MapContainer>
       <MapView
         showsUserLocation
+        onPress={onMapPress}
         style={styles.map}
         region={{
           ...user.coords,
           latitudeDelta: delta,
           longitudeDelta: delta,
         }}>
-        <Marker
-          onPress={onMapPress}
-          coordinate={user.coords}
-          title={user.name}>
-                      <Callout onPress={() => calloutPress()}>
-                          <View style={styles.viewStyle}>
-                            <View style={styles.viewStyleRow}>
-                              <Text>{user.name}</Text>
-                            </View>
-                            <View style={styles.viewStyleRow}>
-                              <Button
-                                  color='blue'
-                                  title="Marcar interesse"
-                                  onPress={() => enrollEvent()}
-                                />
-                            </View>
-                          </View>
-                      </Callout>
-        </Marker>
+        {
+          events.map(e => (
+              <Marker
+              key = {e.id}
+              onPress={onMapPress}
+              coordinate={e.coords}
+              title={e.name}>
+                          <Callout onPress={() => calloutPress(e.id)}>
+                              <View style={styles.viewStyle}>
+                                <View style={styles.viewStyleRow}>
+                                  <Text>Nome: {e.name}</Text>
+                                </View>
+                                <View style={styles.viewStyleRow}>
+                                  <Text>Tipo: {e.type}</Text>
+                                </View>
+                                <View style={styles.viewStyleRow}>
+                                  <Button
+                                      color='blue'
+                                      title="Marcar interesse"
+                                      onPress={() => enrollEvent(e.id)}
+                                    />
+                                </View>
+                              </View>
+                          </Callout>
+            </Marker>
+          ))}
 
         {/* {positionsArray.map(position => (
           <Marker coordinate={position.coords} key={position.id} />

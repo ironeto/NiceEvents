@@ -62,9 +62,9 @@ export function App() {
     AppStorage.syncAppStorage(appState);
   }, [appState]);
 
-  // if (appState.isLoading) {
-  //   return <Loader />;
-  // }
+  if (appState.isLoading) {
+    return <Loader />;
+  }
 
   return (
     <NavigationContainer>
