@@ -1,5 +1,5 @@
 import {Image, ImageProps} from 'react-native';
-import {Box, Row, Column, Divider, FlatList, Pressable, Text} from 'native-base';
+import {Box} from 'native-base';
 
 export type EventImgProps = {
   color: string;

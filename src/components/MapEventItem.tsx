@@ -1,20 +1,6 @@
 import {EventImg} from './EventImg';
 import styled from 'styled-components/native';
-
-const EventItemWrapper = styled.View`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 8px;
-`;
-
-const EventImgWrapper = styled.View`
-  margin-right: 12px;
-`;
-
-const NameText = styled.Text`
-  font-size: 18px;
-`;
+import {Box, Column, Text} from 'native-base';
 
 export type EventItemProps = {
   name: string;
@@ -24,11 +10,13 @@ export type EventItemProps = {
 
 export function MapEventItem({name, type, imgUrl}: EventItemProps) {
   return (
-    <EventItemWrapper>
-      <EventImgWrapper>
+    <Column padding='8px' alignItems='center'>
+      <Box marginLeft='12px'>
         <EventImg color="#000" source={{uri:imgUrl}}/>
-      </EventImgWrapper>
-      <NameText>{name} ({type})</NameText>
-    </EventItemWrapper>
+      </Box>
+      <Box alignContent='center' justifyContent='center'>
+        <Text fontSize='md' alignContent='center' justifyContent='center'>{name} ({type})</Text>
+      </Box>      
+    </Column>
   );
 }

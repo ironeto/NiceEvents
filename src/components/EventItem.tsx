@@ -1,6 +1,6 @@
 import {EventImg} from './EventImg';
 import styled from 'styled-components/native';
-import {Box, Row, Column, Divider, FlatList, Pressable, Text} from 'native-base';
+import {Box, Row, Text} from 'native-base';
 
 export type EventItemProps = {
   name: string;
