@@ -1,4 +1,5 @@
-import {View, Text, StyleSheet, Image, ImageProps} from 'react-native';
+import {Image, ImageProps} from 'react-native';
+import {Box, Row, Column, Divider, FlatList, Pressable, Text} from 'native-base';
 
 export type EventImgProps = {
   color: string;
@@ -9,31 +10,11 @@ let size = 50;
 
 export function EventImg({color, source}: EventImgProps) {
   return (
-    <View
-      style={[
-        styles.eventImgWrapper,
-        {
-          width: size,
-          height: size,
-          backgroundColor: color,
-          borderRadius: size / 2,
-        },
-      ]}>
+    <Box width={size} height={size} backgroundColor={color} borderRadius={size/2}>
           <Image
             source={source}
             style={{width: size, height: size, borderRadius: size / 2}}
           />
-    </View>
+    </Box>
   );
 }
-
-const styles = StyleSheet.create({
-  eventImgWrapper: {
-    borderWidth: 5,
-    borderColor: '#ccc',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  }
-});
-
