@@ -1,15 +1,17 @@
-import {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {Loader} from '../components/Loader';
 import {AppContext, initialAppState} from './AppContext';
 import {requestPermission} from '../geolocation/requestPermission';
 import {getCoords} from '../geolocation/getCoords';
 import {watchGeolocation} from '../geolocation/watchGeolocation';
-import {AppState} from './AppContext';
 import {AppNavigator} from './AppNavigator';
 import {AppStorage} from './AppStorage';
 import {NativeBaseProvider} from 'native-base';
-import { appStore, AppStoreProvider } from './appStore';
+import { AppStoreProvider } from './appStore';
+import { AppEvents, AppState } from './types';
+import { appStore } from './appStore';
+import { eventInitialState } from './eventSlice';
 
 async function init(): Promise<AppState> {
   const isPermissionGranted = await requestPermission();
@@ -37,20 +39,31 @@ export function App() {
   const clearWatchIdRef = useRef(() => {});
   const clearWatchId = clearWatchIdRef.current;
 
-
-
   useEffect(() => {
     init().then(appState => {
       setAppState(appState);
       const watchResults = watchGeolocation({
         onPositionChange(coords) {
+
+
+          let eventsArr = eventInitialState.map((val: any): AppEvents => ({
+            id: val.id,
+            name: val.name,
+            type: val.type,
+            imgUrl: val.imgUrl,
+            coords: getRandomCoords(coords)
+          }));
+
+
           setAppState({
             ...appState,
             user: {
               ...appState.user,
               coords,
             },
+            events: eventsArr
           });
+
         },
       });
 
@@ -81,4 +94,31 @@ export function App() {
       </NativeBaseProvider>
     </AppStoreProvider>
   );
+}
+
+const movementIncrement = 0.01;
+
+function generateBoolean() {
+  return Math.random() > 0.5;
+}
+
+function generateInteger(max) {
+  return Math.round(Math.random() * max);
+}
+
+function randomSingleCoordsPosition(singleCoords) {
+  return parseFloat(
+    (
+      singleCoords +
+      (generateBoolean() ? movementIncrement : -movementIncrement) *
+        generateInteger(10)
+    ).toFixed(7),
+  );
+}
+ 
+function getRandomCoords(coords) {
+  return {
+    latitude: randomSingleCoordsPosition(coords.latitude),
+    longitude: randomSingleCoordsPosition(coords.longitude),
+  };
 }

@@ -7357,10 +7357,10 @@
   "resolved" "https://registry.npmjs.org/range-parser/-/range-parser-1.2.1.tgz"
   "version" "1.2.1"
 
-"react-devtools-core@4.24.0":
-  "integrity" "sha512-Rw7FzYOOzcfyUPaAm9P3g0tFdGqGq2LLiAI+wjYcp6CsF3DeeMrRS3HZAho4s273C29G/DJhx0e8BpRE/QZNGg=="
-  "resolved" "https://registry.npmjs.org/react-devtools-core/-/react-devtools-core-4.24.0.tgz"
-  "version" "4.24.0"
+"react-devtools-core@~4.25.0":
+  "integrity" "sha512-iewRrnu0ZnmfL+jJayKphXj04CFh6i3ezVnpCtcnZbTPSQgN09XqHAzXbKbqNDl7aTg9QLNkQRP6M3DvdrinWA=="
+  "resolved" "https://registry.npmjs.org/react-devtools-core/-/react-devtools-core-4.25.0.tgz"
+  "version" "4.25.0"
   dependencies:
     "shell-quote" "^1.6.1"
     "ws" "^7"
