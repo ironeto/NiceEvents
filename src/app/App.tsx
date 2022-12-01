@@ -8,7 +8,8 @@ import {watchGeolocation} from '../geolocation/watchGeolocation';
 import {AppState} from './AppContext';
 import {AppNavigator} from './AppNavigator';
 import {AppStorage} from './AppStorage';
-import {NativeBaseProvider} from 'native-base'
+import {NativeBaseProvider} from 'native-base';
+import { appStore, AppStoreProvider } from './appStore';
 
 async function init(): Promise<AppState> {
   const isPermissionGranted = await requestPermission();
@@ -70,12 +71,14 @@ export function App() {
   }
 
   return (
-    <NativeBaseProvider>
-      <NavigationContainer>
-          <AppContext.Provider value={{appState, setAppState}}>
-            <AppNavigator />
-          </AppContext.Provider>
-      </NavigationContainer>
-    </NativeBaseProvider>
+    <AppStoreProvider store={appStore}>
+      <NativeBaseProvider>
+        <NavigationContainer>
+            <AppContext.Provider value={{appState, setAppState}}>
+              <AppNavigator />
+            </AppContext.Provider>
+        </NavigationContainer>
+      </NativeBaseProvider>
+    </AppStoreProvider>
   );
 }
