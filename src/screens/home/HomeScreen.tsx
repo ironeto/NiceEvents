@@ -6,26 +6,25 @@ import {AppContext} from '../../app/AppContext';
 import {MapEventItem} from '../../components/MapEventItem';
 import { Box, Row } from 'native-base';
 import { AppEvents } from '../../app/types';
-import { useAppSelector } from '../../app/appStore';
+import { useAppSelector,useAppDispatch, eventActions, myEventActions  } from '../../app/appStore';
 
 const delta = 0.1;
 
 export function HomeScreen() {
-  const {appState, setAppState} = useContext(AppContext);
+
+  const dispatch = useAppDispatch();
   let events = useAppSelector(state => state.event);
   let user = useAppSelector(state => state.user);
   let myEvents = useAppSelector(state => state.myEvents);
-
   let onMapPress = (e) => {
       console.log(JSON.stringify(e.nativeEvent.coordinate));
   };
 
   let calloutPress = (id) => {
-          let event = events.find(x => x.id === id);
+    let event = events.find(x => x.id === id);
     let myevent = myEvents.find(x => x.id === id);
     if(!myevent){
-      appState.myEvents.push(event);
-      setAppState({...appState});
+      dispatch(myEventActions.addEventToInterest(event));
       alert(`O Evento ${event?.name} foi adicionado à sua lista de interesses.`);
     }
     else

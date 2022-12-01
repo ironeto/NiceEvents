@@ -8,6 +8,8 @@ export {Provider as AppStoreProvider} from 'react-redux';
 export {userActions} from '../app/userSlice';
 export {appActions} from '../app/appSlice';
 export {eventActions} from '../app/eventSlice';
+export {myEventActions} from '../app/myEventsSlice';
+
 export const appStore = configureStore({
     reducer:{
         app:appReducer,

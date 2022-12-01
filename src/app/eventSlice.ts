@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppEvents } from "./types";
 
-export const eventInitialState: AppEvents[] =[
+export const fakeEvents: AppEvents[] =[
     {id: 1,name:'Indie Rock Show', type:'Music', imgUrl:'https://pbs.twimg.com/profile_images/486929358120964097/gNLINY67_400x400.png',coords: {"longitude":-0,"latitude":0}},
     {id: 2,name:'Jazz Presentation', type:'Music', imgUrl:'https://pbs.twimg.com/profile_images/486929358120964097/gNLINY67_400x400.png',coords: {"longitude":-0,"latitude":0}},
     {id: 3,name:'Concert', type:'Music', imgUrl:'https://pbs.twimg.com/profile_images/486929358120964097/gNLINY67_400x400.png',coords: {"longitude":-0,"latitude":0}},
@@ -24,6 +24,8 @@ export const eventInitialState: AppEvents[] =[
     {id: 20,name:'Ford Event', type:'Car', imgUrl:'https://pbs.twimg.com/profile_images/486929358120964097/gNLINY67_400x400.png',coords: {"longitude":-0,"latitude":0}},
     {id: 21,name:'GM Event', type:'Car', imgUrl:'https://pbs.twimg.com/profile_images/486929358120964097/gNLINY67_400x400.png',coords: {"longitude":-0,"latitude":0}}
   ];
+
+export const eventInitialState: AppEvents[] =[];
 
 export const eventSlice = createSlice({
     name: 'event',
