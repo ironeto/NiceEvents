@@ -45,7 +45,6 @@ export function App() {
       const watchResults = watchGeolocation({
         onPositionChange(coords) {
 
-
           let eventsArr = eventInitialState.map((val: any): AppEvents => ({
             id: val.id,
             name: val.name,
@@ -53,7 +52,6 @@ export function App() {
             imgUrl: val.imgUrl,
             coords: getRandomCoords(coords)
           }));
-
 
           setAppState({
             ...appState,

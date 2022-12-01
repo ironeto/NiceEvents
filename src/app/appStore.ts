@@ -2,6 +2,7 @@ import {configureStore} from '@reduxjs/toolkit';
 import {useDispatch, useSelector, TypedUseSelectorHook} from 'react-redux';
 import { appReducer } from './appSlice';
 import { eventReducer } from './eventSlice';
+import { myEventReducer } from './myEventsSlice';
 import { userReducer } from './userSlice';
 export {Provider as AppStoreProvider} from 'react-redux';
 export {userActions} from '../app/userSlice';
@@ -11,7 +12,8 @@ export const appStore = configureStore({
     reducer:{
         app:appReducer,
         user:userReducer,
-        event:eventReducer
+        event:eventReducer,
+        myEvents:myEventReducer
     },
     devTools: true
 });

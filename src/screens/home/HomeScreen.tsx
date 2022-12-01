@@ -6,14 +6,15 @@ import {AppContext} from '../../app/AppContext';
 import {MapEventItem} from '../../components/MapEventItem';
 import { Box, Row } from 'native-base';
 import { AppEvents } from '../../app/types';
+import { useAppSelector } from '../../app/appStore';
 
 const delta = 0.1;
 
 export function HomeScreen() {
   const {appState, setAppState} = useContext(AppContext);
-  let events = appState.events;
-  let user = appState.user;
-  let myEvents = appState.myEvents;
+  let events = useAppSelector(state => state.event);
+  let user = useAppSelector(state => state.user);
+  let myEvents = useAppSelector(state => state.myEvents);
 
   let onMapPress = (e) => {
       console.log(JSON.stringify(e.nativeEvent.coordinate));

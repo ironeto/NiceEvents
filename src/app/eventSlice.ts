@@ -29,9 +29,6 @@ export const eventSlice = createSlice({
     name: 'event',
     initialState: eventInitialState,
     reducers: {
-        addEventToInterest(state,action: PayloadAction<AppEvents>){
-            state.push(action.payload);
-        },
         setEventRange(state,action: PayloadAction<AppEvents[]>){
             state = action.payload;
         },
