@@ -62,7 +62,7 @@ export function AppContent() {
     <AppStoreProvider store={appStore}>
       <NativeBaseProvider>
         <NavigationContainer>
-              <AppNavigator />
+          <AppNavigator />
         </NavigationContainer>
       </NativeBaseProvider>
     </AppStoreProvider>
