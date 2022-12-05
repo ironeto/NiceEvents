@@ -41,12 +41,8 @@ export function AppContent() {
                 dispatch(eventActions.setEventRange(eventsArr));
                 dispatch(appActions.setFakeEventLoaded({isFakeEventsLoaded:true}));
             }
-
-            dispatch(appActions.setLoading({isLoading:false}));
-            dispatch(userActions.setId({id:user.id}));
+            dispatch(appActions.setLoading({isLoading:!isPermissionGranted}));
             dispatch(userActions.setCoords({coords:{latitude:coords.latitude, longitude:coords.longitude}}));
-            dispatch(userActions.setName({name:user.name}));
-
         },
       });
 

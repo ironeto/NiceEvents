@@ -25,14 +25,14 @@ export const fakeEvents: AppEvents[] =[
     {id: 21,name:'GM Event', type:'Car', imgUrl:'https://pbs.twimg.com/profile_images/486929358120964097/gNLINY67_400x400.png',coords: {"longitude":-0,"latitude":0}}
   ];
 
-export const eventInitialState: AppEvents[] =[];
+export const eventInitialState: AppEvents[] = [];
 
 export const eventSlice = createSlice({
     name: 'event',
     initialState: eventInitialState,
     reducers: {
         setEventRange(state,action: PayloadAction<AppEvents[]>){
-            state = action.payload;
+            state.push(...action.payload);
         },
     },
 });

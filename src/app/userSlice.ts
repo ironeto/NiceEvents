@@ -2,8 +2,8 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Coords } from "./types";
 
 const userInitialState ={
-    id: '',
-    name: '',
+    id: '1',
+    name: 'Alvaro Augusto de Marco Neto',
     coords: {
     latitude: 0,
     longitude: 0,
