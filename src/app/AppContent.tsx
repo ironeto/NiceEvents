@@ -23,13 +23,14 @@ export function AppContent() {
   const isLoading = useAppSelector(state => state.app.isLoading);
   const isFakeEventsLoaded = useAppSelector(state => state.app.isFakeEventsLoaded);
   let user = useAppSelector(state => state.user);
+  let events = useAppSelector(state => state.event);
 
   useEffect(() => {
     init().then(isPermissionGranted => {
       const watchResults = watchGeolocation({
         onPositionChange(coords) {
 
-            if(!isFakeEventsLoaded){
+            if(events.length <= 0){
                 let eventsArr = fakeEvents.map((val: any): AppEvents => ({
                     id: val.id,
                     name: val.name,
@@ -39,8 +40,8 @@ export function AppContent() {
                     }));
 
                 dispatch(eventActions.setEventRange(eventsArr));
-                dispatch(appActions.setFakeEventLoaded({isFakeEventsLoaded:true}));
             }
+            
             dispatch(appActions.setLoading({isLoading:!isPermissionGranted}));
             dispatch(userActions.setCoords({coords:{latitude:coords.latitude, longitude:coords.longitude}}));
         },

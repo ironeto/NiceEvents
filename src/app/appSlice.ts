@@ -15,10 +15,7 @@ export const appSlice = createSlice({
         },
         setDarkTheme(state,action: PayloadAction< {isDarkTheme?: boolean} >){
             state.isDarkTheme = action.payload.isDarkTheme ?? !state.isDarkTheme;
-        },
-        setFakeEventLoaded(state,action: PayloadAction<{isFakeEventsLoaded:boolean}>){
-            state.isFakeEventsLoaded = action.payload.isFakeEventsLoaded;
-        },
+        }
     },
 });
 
