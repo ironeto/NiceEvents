@@ -2,7 +2,6 @@ import {useContext, useEffect, useState} from 'react';
 import {StyleSheet, TouchableHighlight, View, Text, ScrollView, Button} from 'react-native';
 import styled from 'styled-components/native';
 import MapView, {Marker, Callout} from 'react-native-maps';
-import {AppContext} from '../../app/AppContext';
 import {MapEventItem} from '../../components/MapEventItem';
 import { Box, Row } from 'native-base';
 import { AppEvents } from '../../app/types';

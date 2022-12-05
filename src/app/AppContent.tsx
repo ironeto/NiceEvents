@@ -1,12 +1,10 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {Loader} from '../components/Loader';
-import {AppContext, initialAppState} from './AppContext';
 import {requestPermission} from '../geolocation/requestPermission';
 import {getCoords} from '../geolocation/getCoords';
 import {watchGeolocation} from '../geolocation/watchGeolocation';
 import {AppNavigator} from './AppNavigator';
-import {AppStorage} from './AppStorage';
 import {NativeBaseProvider} from 'native-base';
 import { appActions, AppStoreProvider } from './appStore';
 import { AppEvents, AppState } from './types';
@@ -14,38 +12,20 @@ import { appStore } from './appStore';
 import { eventInitialState, fakeEvents } from './eventSlice';
 import { useAppSelector,userActions,eventActions,useAppDispatch } from '../app/appStore';
 
-async function init(): Promise<AppState> {
-  const isPermissionGranted = await requestPermission();
-  const coords = await getCoords();
-  const storage = await AppStorage.getStorage();
-  
-  const user = {
-    ...storage.user,
-    coords: coords ?? storage.user.coords,
-  };
-  const isLoading = !isPermissionGranted;
-
-  const appState = {
-    ...storage,
-    user,
-    isLoading,
-  };
-
-  await AppStorage.setStorage(appState);
-
-  return appState;
+async function init(): Promise<boolean> {
+  return await requestPermission();
 }
 
 export function AppContent() {
-  const [appState, setAppState] = useState(initialAppState);
   const clearWatchIdRef = useRef(() => {});
   const clearWatchId = clearWatchIdRef.current;
   const dispatch = useAppDispatch();
   const isLoading = useAppSelector(state => state.app.isLoading);
   const isFakeEventsLoaded = useAppSelector(state => state.app.isFakeEventsLoaded);
+  let user = useAppSelector(state => state.user);
 
   useEffect(() => {
-    init().then(appState => {
+    init().then(isPermissionGranted => {
       const watchResults = watchGeolocation({
         onPositionChange(coords) {
 
@@ -63,9 +43,9 @@ export function AppContent() {
             }
 
             dispatch(appActions.setLoading({isLoading:false}));
-            dispatch(userActions.setId({id:appState.user.id}));
+            dispatch(userActions.setId({id:user.id}));
             dispatch(userActions.setCoords({coords:{latitude:coords.latitude, longitude:coords.longitude}}));
-            dispatch(userActions.setName({name:appState.user.name}));
+            dispatch(userActions.setName({name:user.name}));
 
         },
       });
@@ -86,9 +66,7 @@ export function AppContent() {
     <AppStoreProvider store={appStore}>
       <NativeBaseProvider>
         <NavigationContainer>
-            <AppContext.Provider value={{appState, setAppState}}>
               <AppNavigator />
-            </AppContext.Provider>
         </NavigationContainer>
       </NativeBaseProvider>
     </AppStoreProvider>

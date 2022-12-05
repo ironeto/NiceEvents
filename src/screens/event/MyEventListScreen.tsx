@@ -2,18 +2,17 @@ import {useContext, useState} from 'react';
 import {
   Alert,
 } from 'react-native';
-
+import { useAppSelector,useAppDispatch, eventActions, myEventActions  } from '../../app/appStore';
 import {EventItem} from '../../components/EventItem';
-import { AppContext } from '../../app/AppContext';
 import {Box, Column, Divider, FlatList, Pressable} from 'native-base';
 
 export function MyEventListScreen() {
-  const {appState, setAppState} = useContext(AppContext);
+  let myEvents = useAppSelector(state => state.myEvents);
 
   return (
     <Column height="full">
       <FlatList
-      data={appState.myEvents}
+      data={myEvents}
       ItemSeparatorComponent={Divider}
       renderItem={
         event => (
