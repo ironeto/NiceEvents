@@ -1,9 +1,10 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {HomeScreen} from '../screens/home/HomeScreen'
+import {HomeScreen} from '../screens/home/HomeScreen';
 import {EventListScreen} from '../screens/event/EventListScreen';
 import {MyEventListScreen} from '../screens/event/MyEventListScreen';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import screens from '../screens.json';
+import {FeedScreen} from '../screens/feed/feed';
 
 const Tab = createBottomTabNavigator();
 
@@ -39,6 +40,15 @@ export function AppNavigator() {
         options={{
           tabBarIcon({color, size}) {
             return <Icon name="home" size={size} color={color} />;
+          },
+        }}
+      />
+      <Tab.Screen
+        name={screens.feed}
+        component={FeedScreen}
+        options={{
+          tabBarIcon({color, size}) {
+            return <Icon name="rss-feed" size={size} color={color} />;
           },
         }}
       />
