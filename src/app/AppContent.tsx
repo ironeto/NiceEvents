@@ -10,7 +10,7 @@ import { appActions, AppStoreProvider } from './appStore';
 import { AppEvents, AppState } from './types';
 import { appStore } from './appStore';
 import { eventInitialState, fakeEvents } from './eventSlice';
-import { useAppSelector,userActions,eventActions,useAppDispatch } from '../app/appStore';
+import { useAppSelector,userActions,eventActions,useAppDispatch,AppStorePersistGate, appPersistor } from '../app/appStore';
 
 async function init(): Promise<boolean> {
   return await requestPermission();
@@ -61,11 +61,13 @@ export function AppContent() {
 
   return (
     <AppStoreProvider store={appStore}>
-      <NativeBaseProvider>
-        <NavigationContainer>
-          <AppNavigator />
-        </NavigationContainer>
-      </NativeBaseProvider>
+      {/* <AppStorePersistGate persistor={appPersistor}> */}
+        <NativeBaseProvider>
+          <NavigationContainer>
+            <AppNavigator />
+          </NavigationContainer>
+        </NativeBaseProvider>
+      {/* </AppStorePersistGate> */}
     </AppStoreProvider>
   );
 }
