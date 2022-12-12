@@ -4,7 +4,7 @@ import {EventListScreen} from '../screens/event/EventListScreen';
 import {MyEventListScreen} from '../screens/event/MyEventListScreen';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import screens from '../screens.json';
-import {FeedScreen} from '../screens/feed/feed';
+import {FeedListScreen} from '../screens/feed/feed-list';
 
 const Tab = createBottomTabNavigator();
 
@@ -45,7 +45,7 @@ export function AppNavigator() {
       />
       <Tab.Screen
         name={screens.feed}
-        component={FeedScreen}
+        component={FeedListScreen}
         options={{
           tabBarIcon({color, size}) {
             return <Icon name="rss-feed" size={size} color={color} />;

@@ -11,6 +11,7 @@ import { AppEvents, AppState } from './types';
 import { appStore } from './appStore';
 import { eventInitialState, fakeEvents } from './eventSlice';
 import { useAppSelector,userActions,eventActions,useAppDispatch,AppStorePersistGate, appPersistor } from '../app/appStore';
+import {apolloClient, ApolloProvider} from '../utils/apolloClient';
 
 async function init(): Promise<boolean> {
   return await requestPermission();
@@ -61,13 +62,15 @@ export function AppContent() {
 
   return (
     <AppStoreProvider store={appStore}>
-      {/* <AppStorePersistGate persistor={appPersistor}> */}
+      <AppStorePersistGate persistor={appPersistor}>
+      <ApolloProvider client={apolloClient}>
         <NativeBaseProvider>
           <NavigationContainer>
             <AppNavigator />
           </NavigationContainer>
         </NativeBaseProvider>
-      {/* </AppStorePersistGate> */}
+      </ApolloProvider>
+      </AppStorePersistGate>
     </AppStoreProvider>
   );
 }
