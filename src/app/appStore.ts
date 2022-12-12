@@ -7,15 +7,15 @@ import { userReducer } from './userSlice';
 import {feedReducer} from '../app/feedSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
-    persistReducer,
-    persistStore,
-    FLUSH,
-    REHYDRATE,
-    PAUSE,
-    PERSIST,
-    PURGE,
-    REGISTER,
-  } from 'redux-persist';
+  persistReducer,
+  persistStore,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist";
 
 export {Provider as AppStoreProvider} from 'react-redux';
 export {userActions} from '../app/userSlice';
@@ -56,11 +56,7 @@ export const appStore = configureStore({
     }),
 });
 
-
 export const appPersistor = persistStore(appStore);
-export type AppStore = ReturnType<typeof appStore.getState>
-export const useAppSelector : TypedUseSelectorHook<AppStore> = useSelector;
-export const useAppDispatch : () => typeof appStore.dispatch = useDispatch;
-
-
-
+export type AppStore = ReturnType<typeof appStore.getState>;
+export const useAppSelector: TypedUseSelectorHook<AppStore> = useSelector;
+export const useAppDispatch: () => typeof appStore.dispatch = useDispatch;
