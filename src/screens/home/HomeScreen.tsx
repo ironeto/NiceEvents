@@ -14,7 +14,8 @@ export function HomeScreen() {
   const dispatch = useAppDispatch();
   let events = useAppSelector(state => state.event);
   let user = useAppSelector(state => state.user);
-  let myEvents = useAppSelector(state => state.myEvents);
+  let myEvents = useAppSelector(state => state.myEvents.myEvents);
+  let eventPhotos = useAppSelector(state => state.eventPhotos);
   let onMapPress = (e) => {
       console.log(JSON.stringify(e.nativeEvent.coordinate));
   };

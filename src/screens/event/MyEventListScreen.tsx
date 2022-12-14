@@ -7,8 +7,7 @@ import {EventItem} from '../../components/EventItem';
 import {Box, Column, Divider, FlatList, Pressable} from 'native-base';
 
 export function MyEventListScreen() {
-  let myEvents = useAppSelector(state => state.myEvents);
-
+  let myEvents = useAppSelector(state => state.myEvents.myEvents);
   return (
     <Column height="full">
       <FlatList

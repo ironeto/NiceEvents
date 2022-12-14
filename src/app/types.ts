@@ -1,15 +1,16 @@
-export type Coords = {
+  export type Coords = {
     latitude: number;
     longitude: number;
   };
   
-  export interface AppEvents {
+  export type AppEvents = {
     id: number;
     name: string;
     type: string;
     imgUrl: string;
     coords: Coords;
   };
+  
   
   export type UserState = {
     id: string;

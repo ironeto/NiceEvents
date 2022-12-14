@@ -39,12 +39,20 @@ const persistedEventPhotosReducer = persistReducer(
   eventPhotosReducer,
 );
 
+const persistedMyEventsReducer = persistReducer(
+  {
+    ...persistConfig,
+    key: 'myEvents',
+  },
+  myEventReducer,
+);
+
 export const appStore = configureStore({
     reducer:{
         app:appReducer,
         user:userReducer,
         event:eventReducer,
-        myEvents:myEventReducer,
+        myEvents:persistedMyEventsReducer,
         eventPhotos: persistedEventPhotosReducer
     },
     devTools: process.env.NODE_ENV === 'development',

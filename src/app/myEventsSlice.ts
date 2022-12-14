@@ -1,14 +1,16 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppEvents } from "./types";
 
-export const myEventsInitialState: AppEvents[] =[];
+const myEventsInitialState = {
+    myEvents: [] as AppEvents[],
+};
 
 export const myEventsSlice = createSlice({
     name: 'myEvents',
     initialState: myEventsInitialState,
     reducers: {
         addEventToInterest(state,action: PayloadAction<AppEvents>){
-            state.push(action.payload);
+            state.myEvents.push(action.payload);
         }
     },
 });

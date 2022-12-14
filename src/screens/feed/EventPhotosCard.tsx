@@ -6,6 +6,7 @@ export type EventPhotosCardProps = {
   name: string;
 };
 
+
 export function EventPhotosCard({imageSrc, name}: EventPhotosCardProps) {
   return (
     <Box
