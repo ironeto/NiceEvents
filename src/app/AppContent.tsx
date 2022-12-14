@@ -12,6 +12,7 @@ import { appStore } from './appStore';
 import { eventInitialState, fakeEvents } from './eventSlice';
 import { useAppSelector,userActions,eventActions,useAppDispatch,AppStorePersistGate, appPersistor } from '../app/appStore';
 import {apolloClient, ApolloProvider} from '../utils/apolloClient';
+import messaging from '@react-native-firebase/messaging';
 
 async function init(): Promise<boolean> {
   return await requestPermission();
@@ -27,6 +28,7 @@ export function AppContent() {
   let events = useAppSelector(state => state.event);
 
   useEffect(() => {
+    messaging().getToken().then(console.log);
     init().then(isPermissionGranted => {
       const watchResults = watchGeolocation({
         onPositionChange(coords) {

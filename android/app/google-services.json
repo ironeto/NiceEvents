@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "711359390453",
+    "project_id": "niceevents-a8540",
+    "storage_bucket": "niceevents-a8540.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:711359390453:android:240f8837d37b5ecf7b1bbc",
+        "android_client_info": {
+          "package_name": "com.NiceEvents"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "711359390453-k8gukdm96lg39e03k25t7rr7rqlrl7o4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgQaD4bz6XpDtJLf0KqqIoX56k3ca_PpM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "711359390453-k8gukdm96lg39e03k25t7rr7rqlrl7o4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
