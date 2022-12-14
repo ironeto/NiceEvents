@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {EventPhotosCardProps} from '../screens/feed/EventPhotosCard';
+import {EventPhotosCardProps} from '../screens/eventPhotos/EventPhotosCard';
 
 const eventPhotosInitialState = {
   eventPhotos: [] as EventPhotosCardProps[],

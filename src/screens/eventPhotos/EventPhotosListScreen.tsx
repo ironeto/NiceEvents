@@ -68,6 +68,7 @@ export function EventPhotosListScreen({navigation}: StackScreenProps<ParamListBa
         <Box marginTop="4" flex="1">
           <FlatList
             data={eventPhotos}
+            keyExtractor={({name}) => name}
             renderItem={({item}) => (
               <Pressable
                 onPress={() => {

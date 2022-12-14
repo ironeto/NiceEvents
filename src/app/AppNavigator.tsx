@@ -4,7 +4,7 @@ import {EventListScreen} from '../screens/event/EventListScreen';
 import {MyEventListScreen} from '../screens/event/MyEventListScreen';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import screens from '../screens.json';
-import {EventPhotosListScreen} from '../screens/feed/EventPhotosListScreen';
+import {EventPhotosListScreen} from '../screens/eventPhotos/EventPhotosListScreen';
 
 const Tab = createBottomTabNavigator();
 
