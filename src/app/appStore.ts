@@ -4,7 +4,7 @@ import { appReducer } from './appSlice';
 import { eventReducer } from './eventSlice';
 import { myEventReducer } from './myEventsSlice';
 import { userReducer } from './userSlice';
-import {feedReducer} from '../app/feedSlice';
+import {eventPhotosReducer} from './eventPhotosSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   persistReducer,
@@ -22,7 +22,7 @@ export {userActions} from '../app/userSlice';
 export {appActions} from '../app/appSlice';
 export {eventActions} from '../app/eventSlice';
 export {myEventActions} from '../app/myEventsSlice';
-export {feedActions} from '../app/feedSlice';
+export {eventPhotosActions} from './eventPhotosSlice';
 
 export {PersistGate as AppStorePersistGate} from 'redux-persist/integration/react';
 
@@ -31,12 +31,12 @@ const persistConfig = {
 };
 
 
-const persistedFeedReducer = persistReducer(
+const persistedEventPhotosReducer = persistReducer(
   {
     ...persistConfig,
-    key: 'feed',
+    key: 'eventPhotos',
   },
-  feedReducer,
+  eventPhotosReducer,
 );
 
 export const appStore = configureStore({
@@ -45,7 +45,7 @@ export const appStore = configureStore({
         user:userReducer,
         event:eventReducer,
         myEvents:myEventReducer,
-        feed: persistedFeedReducer
+        eventPhotos: persistedEventPhotosReducer
     },
     devTools: process.env.NODE_ENV === 'development',
     middleware: getDefaultMiddleware =>

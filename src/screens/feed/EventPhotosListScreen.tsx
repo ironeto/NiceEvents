@@ -4,35 +4,36 @@ import type {StackScreenProps} from '@react-navigation/stack';
 import type {ParamListBase} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {Pressable, Center, Box, Spinner, Fab} from 'native-base';
-import {FeedCard, FeedCardProps} from '../feed/FeedCard';
+import {EventPhotosCard, EventPhotosCardProps} from './EventPhotosCard';
 import {useLazyQuery} from '../../utils/apolloClient';
-import {queryGetFeedPage} from '../feed/queryGetFeedPage';
-import {useAppDispatch, useAppSelector, feedActions} from '../../app/appStore';
+import {queryGetEventsPhotos} from './queryGetEventsPhotos';
+import {useAppDispatch, useAppSelector, eventActions, eventPhotosActions} from '../../app/appStore';
 import screens from '../../screens.json';
 
-const pageSize = 9;
+const pageSize = 3;
 
-export function FeedListScreen({navigation}: StackScreenProps<ParamListBase>) {
+export function EventPhotosListScreen({navigation}: StackScreenProps<ParamListBase>) {
   const [endReached, setEndReached] = useState(false);
   const [page, setPage] = useState(1);
-  const feed = useAppSelector(state => state.feed.feed);
+  const eventPhotos = useAppSelector(state => state.eventPhotos.eventPhotos);
   const dispatch = useAppDispatch();
-  const [getFeedPage, {loading}] = useLazyQuery(queryGetFeedPage, {
+  const [getEventsPhotos, {loading}] = useLazyQuery(queryGetEventsPhotos, {
     fetchPolicy: 'no-cache',
   });
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', async () => {
       const nextPage = 1;
-      const {data} = await getFeedPage({
+
+      const {data} = await getEventsPhotos({
         variables: {
           pageSize,
           page: nextPage,
         },
       });
 
-      const feed = feedDecoder(data);
-      dispatch(feedActions.setFeed({feed}));
+      const eventsPhotos = eventPhotosDecoder(data);
+      dispatch(eventPhotosActions.setEventPhotos({eventsPhotos}));
     });
 
     return unsubscribe;
@@ -45,34 +46,34 @@ export function FeedListScreen({navigation}: StackScreenProps<ParamListBase>) {
 
     const nextPage = page + 1;
 
-    const {data} = await getFeedPage({
+    const {data} = await getEventsPhotos({
       variables: {
         pageSize,
         page: nextPage,
       },
     });
-    const feed = feedDecoder(data);
+    const eventPhotos = eventPhotosDecoder(data);
 
-    if (feed.length < pageSize) {
+    if (eventPhotos.length < pageSize) {
       setEndReached(true);
     }
 
     setPage(nextPage);
-    dispatch(feedActions.addFeedPage({feed}));
+    dispatch(eventPhotosActions.addEventPhotos({eventPhotos}));
   }
 
   return (
     <Center height="full">
-      {feed.length > 0 && (
+      {eventPhotos.length > 0 && (
         <Box marginTop="4" flex="1">
           <FlatList
-            data={feed}
+            data={eventPhotos}
             renderItem={({item}) => (
               <Pressable
                 onPress={() => {
                   Alert.alert('', JSON.stringify(item, undefined, 2));
                 }}>
-                <FeedCard {...item} />
+                <EventPhotosCard {...item} />
               </Pressable>
             )}
             onEndReached={onEndReached}
@@ -87,28 +88,23 @@ export function FeedListScreen({navigation}: StackScreenProps<ParamListBase>) {
       <Fab
         renderInPortal={false}
         padding="1.5"
-        onPress={() => navigation.navigate(screens.feed.add)}
+        // onPress={() => navigation.navigate(screens.eventPhotos.add)}
         icon={<Icon name="add" size={32} />}
       />
     </Center>
   );
 }
 
-function feedDecoder(data: any): FeedCardProps[] {
+function eventPhotosDecoder(data: any): EventPhotosCardProps[] {
   if (data === undefined) {
     return [];
   }
 
-  const {data: feed} = data.feeds;
-  const items = feed.map(
-    ({attributes: {name, content, color, imageLink, image}}: any) => ({
-      name,
-      content,
-      color,
-      imageSrc: image.data
-        ? `https://webservices.jumpingcrab.com${image.data.attributes.url}`
-        : imageLink,
-      coords: {latitude: 0, longitude: 0},
+  const {data: events} = data.niceEvents;
+  const items = events.map(
+    ({attributes: {EventName, Photo}}: any) => ({
+      name : EventName,
+      imageSrc: `https://webservices.jumpingcrab.com${Photo.data.attributes.url}`
     }),
   );
 

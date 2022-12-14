@@ -1,12 +1,12 @@
 import {Box, Image, Text, Divider, AspectRatio} from 'native-base';
 
 
-export type FeedCardProps = {
+export type EventPhotosCardProps = {
   imageSrc: string;
-  content: string;
+  name: string;
 };
 
-export function FeedCard({imageSrc, content}: FeedCardProps) {
+export function EventPhotosCard({imageSrc, name}: EventPhotosCardProps) {
   return (
     <Box
       overflow="hidden"
@@ -27,7 +27,7 @@ export function FeedCard({imageSrc, content}: FeedCardProps) {
       <Box padding="4">
         <Divider />
         <Box marginTop="2">
-          <Text fontSize="md">{content}</Text>
+          <Text fontSize="md">{name}</Text>
         </Box>
       </Box>
     </Box>
