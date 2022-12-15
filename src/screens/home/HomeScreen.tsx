@@ -57,7 +57,7 @@ export function HomeScreen() {
               coordinate={e.coords}
               title={e.name}>
                           <Callout onPress={() => calloutPress(e.id)}>
-                              <Row flexWrap="wrap" width="200" height="200" backgroundColor="#fff" alignContent="center" justifyContent="center">
+                              <Row flexWrap="wrap" width="200" height="200" alignContent="center" justifyContent="center">
                                 <Row>
                                   <MapEventItem name={e.name} type={e.type} imgUrl={e.imgUrl} />
                                 </Row>
