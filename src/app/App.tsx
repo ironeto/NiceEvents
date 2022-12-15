@@ -6,8 +6,9 @@ import {
   AppStorePersistGate,
 } from "./appStore";
 import { AppContent } from "./AppContent";
+import codePush from 'react-native-code-push';
 
-export function App() {
+export function AppContainer() {
   return (
     <AppStoreProvider store={appStore}>
       <AppStorePersistGate persistor={appPersistor}>
@@ -16,3 +17,5 @@ export function App() {
     </AppStoreProvider>
   );
 }
+
+export const App = codePush(AppContainer);
