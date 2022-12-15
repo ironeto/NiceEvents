@@ -13,9 +13,9 @@ export const appSlice = createSlice({
         setLoading(state,action: PayloadAction< {isLoading?: boolean} >){
             state.isLoading = action.payload.isLoading ?? !state.isLoading;
         },
-        setDarkTheme(state,action: PayloadAction< {isDarkTheme?: boolean} >){
-            state.isDarkTheme = action.payload.isDarkTheme ?? !state.isDarkTheme;
-        }
+        setDarkTheme(state, action: PayloadAction<{isDarkTheme: boolean}>) {
+            state.isDarkTheme = action.payload.isDarkTheme;
+          },
     },
 });
 

@@ -1,9 +1,19 @@
 import {View, ActivityIndicator, StyleSheet} from 'react-native';
 
-export function Loader() {
+
+export type AppLoaderProps = {
+  dark?: boolean;
+};
+
+
+export function Loader({dark = false}: AppLoaderProps) {
   return (
-    <View style={styles.loaderWrapper}>
-      <ActivityIndicator size={64} />
+    <View style={[styles.loaderWrapper,
+                {
+                  backgroundColor: dark ? '#101010' : '#f0f0f0'
+                }]
+                }>
+      <ActivityIndicator size={64} color={dark ? '#f0f0f0' : '#101010'}/>
     </View>
   );
 }

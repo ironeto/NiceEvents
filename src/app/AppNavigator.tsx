@@ -5,6 +5,7 @@ import {MyEventListScreen} from '../screens/event/MyEventListScreen';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import screens from '../screens.json';
 import {EventPhotosListScreen} from '../screens/eventPhotos/EventPhotosListScreen';
+import {ProfileScreen} from '../screens/user/profile';
 
 const Tab = createBottomTabNavigator();
 
@@ -49,6 +50,15 @@ export function AppNavigator() {
         options={{
           tabBarIcon({color, size}) {
             return <Icon name="rss-feed" size={size} color={color} />;
+          },
+        }}
+      />
+      <Tab.Screen
+        name={screens.profile}
+        component={ProfileScreen}
+        options={{
+          tabBarIcon({color, size}) {
+            return <Icon name="person" size={size} color={color} />;
           },
         }}
       />

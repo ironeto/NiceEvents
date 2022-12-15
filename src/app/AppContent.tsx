@@ -1,11 +1,11 @@
 import React, {useState, useEffect, useRef} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, DefaultTheme, DarkTheme} from '@react-navigation/native';
 import {Loader} from '../components/Loader';
 import {requestPermission} from '../geolocation/requestPermission';
 import {getCoords} from '../geolocation/getCoords';
 import {watchGeolocation} from '../geolocation/watchGeolocation';
 import {AppNavigator} from './AppNavigator';
-import {NativeBaseProvider} from 'native-base';
+import {NativeBaseProvider,extendTheme} from 'native-base';
 import { appActions, AppStoreProvider } from './appStore';
 import { AppEvents, AppState } from './types';
 import { appStore } from './appStore';
@@ -26,6 +26,22 @@ export function AppContent() {
   const isFakeEventsLoaded = useAppSelector(state => state.app.isFakeEventsLoaded);
   let user = useAppSelector(state => state.user);
   let events = useAppSelector(state => state.event);
+  const isDarkTheme = useAppSelector(state => state.app.isDarkTheme);
+  const baseNavigationTheme = isDarkTheme ? DarkTheme : DefaultTheme;
+
+  const nativeBaseTheme = extendTheme({
+    config: {
+      initialColorMode: isDarkTheme ? 'dark' : 'light',
+    },
+  });
+
+  const navigationTheme = {
+    ...baseNavigationTheme,
+    colors: {
+      ...baseNavigationTheme.colors,
+      primary: nativeBaseTheme.colors.primary[600],
+    },
+  };
 
   useEffect(() => {
     messaging().getToken().then(console.log);
@@ -66,8 +82,8 @@ export function AppContent() {
     <AppStoreProvider store={appStore}>
       <AppStorePersistGate persistor={appPersistor}>
       <ApolloProvider client={apolloClient}>
-        <NativeBaseProvider>
-          <NavigationContainer>
+        <NativeBaseProvider theme={nativeBaseTheme}>
+          <NavigationContainer theme={navigationTheme}>
             <AppNavigator />
           </NavigationContainer>
         </NativeBaseProvider>

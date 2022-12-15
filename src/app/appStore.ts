@@ -47,10 +47,26 @@ const persistedMyEventsReducer = persistReducer(
   myEventReducer,
 );
 
+const persistedUserReducer = persistReducer(
+  {
+    ...persistConfig,
+    key: 'user',
+  },
+  userReducer,
+);
+
+const persistedAppReducer = persistReducer(
+  {
+    ...persistConfig,
+    key: 'app',
+  },
+  appReducer,
+);
+
 export const appStore = configureStore({
     reducer:{
-        app:appReducer,
-        user:userReducer,
+        app:persistedAppReducer,
+        user:persistedUserReducer,
         event:eventReducer,
         myEvents:persistedMyEventsReducer,
         eventPhotos: persistedEventPhotosReducer

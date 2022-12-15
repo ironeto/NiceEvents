@@ -20,6 +20,7 @@
   
   export type AppState = {
     isLoading: boolean;
+    isDarkTheme: boolean;
     user: UserState;
     events: AppEvents[];
     myEvents: AppEvents[];

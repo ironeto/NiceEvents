@@ -6,6 +6,8 @@ import {MapEventItem} from '../../components/MapEventItem';
 import { Box, Row } from 'native-base';
 import { AppEvents } from '../../app/types';
 import { useAppSelector,useAppDispatch, eventActions, myEventActions  } from '../../app/appStore';
+import mapStyleDark from './mapStyleDark.json';
+import mapStyleLight from './mapStyleLight.json';
 
 const delta = 0.1;
 
@@ -19,6 +21,8 @@ export function HomeScreen() {
   let onMapPress = (e) => {
       console.log(JSON.stringify(e.nativeEvent.coordinate));
   };
+  const isDarkMap = useAppSelector(state => state.app.isDarkTheme);
+  const mapStyle = isDarkMap ? mapStyleDark : mapStyleLight;
 
   let calloutPress = (id) => {
     let event = events.find(x => x.id === id);
@@ -39,6 +43,7 @@ export function HomeScreen() {
         showsUserLocation
         onPress={onMapPress}
         style={styles.map}
+        customMapStyle={mapStyle}
         region={{
           ...user.coords,
           latitudeDelta: delta,
