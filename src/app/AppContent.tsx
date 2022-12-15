@@ -75,7 +75,7 @@ export function AppContent() {
   }, []);
 
   if (isLoading) {
-    return <Loader />;
+    return <Loader dark={isDarkTheme} />;
   }
 
   return (
