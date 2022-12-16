@@ -1,5 +1,6 @@
-import {Button, Column, Input, useColorMode} from 'native-base';
-
+import {Button, Column, Input, useColorMode, Text} from 'native-base';
+import React, { useState, useEffect, useRef } from "react";
+import {Email} from '../../app/types';
 import {
   userActions,
   appActions,
@@ -9,8 +10,31 @@ import {
 
 
 export function ProfileScreen() {
+  const validate = (email) => {
+    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+    if (reg.test(email) === false) {
+      dispatch(
+        userActions.setEmail(
+          {email: {
+            value: email,
+            validationMessage: "Email is Not Correct"
+          }}),
+      );
+    }
+    else {
+      dispatch(
+        userActions.setEmail(
+          {email: {
+            value: email,
+            validationMessage: ""
+          }}),
+      );
+    }
+  }
+
   const dispatch = useAppDispatch();
   const name = useAppSelector(state => state.user.name);
+  const email = useAppSelector(state => state.user.email);
   const isDarkTheme = useAppSelector(state => state.app.isDarkTheme);
   const {toggleColorMode} = useColorMode();
 
@@ -32,6 +56,13 @@ export function ProfileScreen() {
           );
         }}
       />
+      <Input
+        placeholder="E-mail"
+        value={email.value}
+        onChangeText={(email) => validate(email)}
+      />
+      <Text style={{color:'red'}}>{email.validationMessage}</Text>
+
       <Button
         width="full"
         onPress={() => {
@@ -47,3 +78,5 @@ export function ProfileScreen() {
     </Column>
   );
 }
+
+

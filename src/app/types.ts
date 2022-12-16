@@ -10,6 +10,11 @@
     imgUrl: string;
     coords: Coords;
   };
+
+  export type Email ={
+    value: string;
+    validationMessage: string;
+  };
   
   
   export type UserState = {
